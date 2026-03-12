@@ -1,0 +1,68 @@
+{
+    "home":
+    {
+        "title": "Captura",
+        "title2": "momentos",
+        "title3": "mágicos",
+        "description": "Cada fotografía captura un instante único. Elige un marco, sonríe y deja que cada imagen conserve esos pequeños momentos que merecen quedarse contigo para siempre.",
+        "button-start": "Empezar"
+    },
+    "select-frame": {
+        "title": "Selección de marco",
+        "description": "Cada marco tiene un estilo especial. Elige el que más te guste y comienza a crear tus recuerdos.",
+        "button-back": "Regresar",
+        "error": {
+            "message": "Lo sentimos, no pudimos cargar los marcos en este momento. Por favor, intenta nuevamente.",
+            "button": "Volver al inicio"
+        }
+    },
+    "photo-booth": {
+        "title": "Tomar fotos",
+        "description": "Prepárate y deja que cada foto capture un instante especial.",
+        "button-capture": "Capturar",
+        "counter": "de",
+        "button-change": "Cambiar marco",
+        "confirm-change-frame": "¿Estás seguro de que quieres cambiar el marco?",
+        "error": {
+            "camera": "Lo sentimos, ocurrió un error al acceder a la cámara. Por favor, intenta nuevamente o cambia el marco.",
+            "video": "Lo sentimos, el video no está listo para capturar la foto. Por favor, intenta nuevamente o cambia el marco."
+        },
+        "confirm": {
+            "title": "Confirmar cambio de marco",
+            "description": "Si cambias el marco, perderás las fotos que has tomado. ¿Deseas continuar?"
+        }
+    },
+    "photo-strip": {
+        "title": "Tu recuerdo especial",
+        "description": "Tu recuerdo de fantasía ha sido capturado y está listo.",
+        "button-download": "Descargar",
+        "button-repeat": "Repetir Fotos",
+        "error": {
+            "message": "Lo sentimos, no se pudo generar la tira de fotos en este momento. Por favor, intenta nuevamente."
+        }
+    },
+    "footer": {
+        "content": "Desarrollado por"
+    },
+    "options": {
+        "error": {
+            "title": "Ups, ocurrió un problema",
+            "button-retry": "Reintentar"
+        }
+    },
+    "page-not-found": {
+        "title": "Página no encontrada",
+        "description": "Lo sentimos, la página que buscas no existe. Por favor, regresa al inicio y comienza a capturar momentos mágicos.",
+        "button-home": "Volver al inicio"
+    },
+    "confirm-card": {
+        "button-confirm": "Confirmar",
+        "button-cancel": "Cancelar"
+    },
+    "view": {
+        "home": "Inicio",
+        "select-frame": "Seleccionar marco",
+        "photo-booth": "Tomar fotos",
+        "photo-strip": "Tira de fotos"
+    }
+}

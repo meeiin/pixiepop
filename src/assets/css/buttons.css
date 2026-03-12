@@ -1,0 +1,55 @@
+.pv-button {
+  outline: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  background-color: #F65AE4 !important; /* default primario */
+  cursor: pointer !important;
+  font-family: "Fira Sans Condensed", sans-serif !important;
+  transition: background 0.3s, color 0.3s !important;
+  padding: clamp(12px, 2vw, 20px) clamp(20px, 4vw, 40px) !important;
+  border-radius: clamp(16px, 3vw, 24px) !important;
+  font-size: clamp(14px, 1.8vw, 18px) !important;
+  min-width: clamp(140px, 20vw, 200px) !important;
+}
+
+.pv-button:focus,
+.pv-button:active,
+.pv-button:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+  background-color: inherit !important;
+}
+
+.pv-button::-moz-focus-inner {
+  border: 0 !important;
+}
+
+/* VARIANTES */
+.pv-button.primary {
+  background-color: #F65AE4 !important;
+  color: #fff !important;
+}
+
+.pv-button.primary:hover {
+  background-color: #e043d0 !important;
+}
+
+.pv-button.secondary {
+  background-color: #fff !important;
+  color: #F65AE4 !important;
+  border: 2px solid #F65AE4 !important;
+}
+
+.pv-button.secondary:hover {
+  background-color: #ffe6f7 !important;
+}
+
+.pv-button.tertiary {
+  background-color: #fff !important;
+  color: #334155 !important;
+  border: 2px solid #E2E8F0 !important;
+}
+
+.pv-button.tertiary:hover {
+  background-color: #f2f2f2 !important;
+}
