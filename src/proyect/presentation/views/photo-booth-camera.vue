@@ -142,8 +142,8 @@ onMounted(requestCamera);
 
 // Libera la cámara al desmontar el componente
 onBeforeUnmount(() => {
-    stream.value?.getTracks().forEach(track => track.stop());
     clearInterval(countdownInterval);
+    stream.value?.getTracks().forEach(track => track.stop());
 });
 </script>
 
@@ -210,8 +210,7 @@ onBeforeUnmount(() => {
 .camera-preview video {
     width: 100%;
     height: 100%;
-    object-fit: contain;
-    transform: scale(1.4);
+    object-fit: cover;
 }
 .slot-overlay {
     position: absolute;
