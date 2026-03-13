@@ -31,9 +31,11 @@ const drawStrip = async (ctx, images, frame) => {
 const generateStrip = async () => {
     if(store.photos.length !== 3) return;
     const canvasElement = canvas.value;
+    const dpr = window.devicePixelRatio || 1;
+    canvasElement.width = 814 * dpr;
+    canvasElement.height = 1968 * dpr;
     const ctx = canvasElement.getContext('2d');
-    canvasElement.width = 814;
-    canvasElement.height = 1968;
+    ctx.scale(dpr, dpr);
     try {
         // Cargar imágenes
         const images = store.photos.map(loadImage);
