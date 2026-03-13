@@ -21,10 +21,10 @@ const loadImage = (src) => {
 
 // Dibuja la tira de fotos en el canvas
 const drawStrip = async (ctx, images, frame) => {
-    ctx.drawImage(images[0], 54, 50, 706, 551);
-    ctx.drawImage(images[1], 54, 628, 706, 551);
-    ctx.drawImage(images[2], 54, 1205, 706, 551);
-    if(frame) ctx.drawImage(frame, 0, 0, 814, 1968);
+    ctx.drawImage(images[0], 75, 100, 800, 600);
+    ctx.drawImage(images[1], 75, 775, 800, 600);
+    ctx.drawImage(images[2], 75, 1450, 800, 600);
+    if(frame) ctx.drawImage(frame, 0, 0, 950, 2350);
 };
 
 // Genera la tira de fotos y la almacena
@@ -32,8 +32,8 @@ const generateStrip = async () => {
     if(store.photos.length !== 3) return;
     const canvasElement = canvas.value;
     const dpr = window.devicePixelRatio || 1;
-    canvasElement.width = 814 * dpr;
-    canvasElement.height = 1968 * dpr;
+    canvasElement.width = 950 * dpr;
+    canvasElement.height = 2350 * dpr;
     const ctx = canvasElement.getContext('2d');
     ctx.scale(dpr, dpr);
     try {

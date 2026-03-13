@@ -14,15 +14,22 @@ const { t } = useI18n();
 const errorCamera = ref(false); // Solo se muestra si falla la cámara
 const errorVideo = ref(false);  // Solo se muestra si el video no está listo
 const facingMode = ref('user'); // 'user' para cámara frontal, 'environment' para trasera
+const isMobile = ref(false);
+
+const checkMultipleCameras = async () => {
+    const devices = await navigator.mediaDevices.enumerateDevices();
+    const cameras = devices.filter(device => device.kind === 'videoinput');
+    isMobile.value = cameras.length > 1;
+};
 
 // Layout del marco y slots para las fotos
 const frameLayout = {
-    width: 814,
-    height: 1968,
+    width: 950,
+    height: 2350,
     slots: [
-        { x: 54, y: 50, width: 706, height: 551 },
-        { x: 54, y: 628, width: 706, height: 551 },
-        { x: 54, y: 1205, width: 706, height: 551 }
+        { x: 75, y: 100, width: 800, height: 600 },
+        { x: 75, y: 775, width: 800, height: 600 },
+        { x: 75, y: 1450, width: 800, height: 600 }
     ]
 }
 
@@ -41,6 +48,7 @@ const activeSlot = computed(() => {
 
 const stream = ref(null);
 const requestCamera = async () => {
+    stream.value?.getTracks().forEach(track => track.stop());
     // Solicita acceso a la cámara
     let localStream = null;
     try {
@@ -91,7 +99,11 @@ const takePhoto = () => {
     canvas.width = width;
     canvas.height = height;
     const ctx = canvas.getContext('2d');
+    ctx.save();
+    ctx.translate(width, 0);
+    ctx.scale(-1, 1);
     ctx.drawImage(video.value, 0, 0, width, height);
+    ctx.restore();
     const dataUrl = canvas.toDataURL('image/png');
     store.addPhoto(dataUrl);
 
@@ -138,7 +150,10 @@ const changeFrame = () => {
         }
     })
 };
-onMounted(requestCamera);
+onMounted(async () => {
+    await checkMultipleCameras();
+    await requestCamera();
+});
 
 // Libera la cámara al desmontar el componente
 onBeforeUnmount(() => {
@@ -202,15 +217,16 @@ onBeforeUnmount(() => {
     color: #64748B;
 }
 .camera-preview {
-    aspect-ratio: 706/551;
+    aspect-ratio: 800/600;
     overflow: hidden;
     position: relative;
-    width: clamp(280px, 80vw, 706px);
+    width: clamp(280px, 80vw, 800px);
 }
 .camera-preview video {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transform: scaleX(-1);
 }
 .slot-overlay {
     position: absolute;

@@ -164,7 +164,7 @@ onUnmounted(() => {
 
 .frame-img-skeleton{
   width: 100%;
-  aspect-ratio: 814/1968;
+  aspect-ratio: 950/2350;
   background: linear-gradient(90deg,#f1f1f1 25%,#e6e6e6 50%,#f1f1f1 75%);
   background-size: 200% 100%;
   animation: skeleton-loading 1.4s infinite;
