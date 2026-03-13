@@ -8,10 +8,11 @@ import { useProjectStore } from './proyect/application/project.store';
 const pageNotFound = () => import('./shared/presentation/views/page-not-found.vue');
 const routes = [
     { path: '/home', name: 'home', component: Home, meta: { title: 'view.home' } },
-    { path: '/photo-booth', name: 'photo-booth', component: PhotoBoothCamema, meta: { title: 'view.photo-booth' }, requiresFrame: true },
-    { path: '/photo-strip', name: 'photo-strip', component: PhotoStripView, meta: { title: 'view.photo-strip' } },
+    { path: '/photo-booth', name: 'photo-booth', component: PhotoBoothCamema, meta: { title: 'view.photo-booth', requiresFrame: true}},
+    { path: '/photo-strip', name: 'photo-strip', component: PhotoStripView, meta: { title: 'view.photo-strip', requiresFrame: true}},
     { path: '/select-frame', name: 'select-frame', component: SelectFrame, meta: { title: 'view.select-frame' } },
-    { path: '/:pathMatch(.*)*', name: 'page-not-found', component: pageNotFound, meta: { title: 'view.page-not-found' } }
+    { path: '/:pathMatch(.*)*', name: 'page-not-found', component: pageNotFound, meta: { title: 'view.page-not-found' } },
+    { path: '/', redirect: { name: 'home'}}
 ];
 
 const router = createRouter({
@@ -19,13 +20,11 @@ const router = createRouter({
     routes: routes,
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach((to) => {
     const store = useProjectStore();
     if(to.meta.requiresFrame && !store.selectedFrame){
-        next({ name: 'select-frame' });
-        return;
+        return{ name: 'select-frame' };
     }
-    next();
 });
 
 export default router;
