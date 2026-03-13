@@ -63,6 +63,7 @@
         "home": "Inicio",
         "select-frame": "Seleccionar marco",
         "photo-booth": "Tomar fotos",
-        "photo-strip": "Tira de fotos"
+        "photo-strip": "Tira de fotos",
+        "page-not-found": "Página no encontrada"
     }
 }

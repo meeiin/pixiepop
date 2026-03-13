@@ -64,6 +64,7 @@
         "home": "Home",
         "select-frame": "Select frame",
         "photo-booth": "Take photos",
-        "photo-strip": "Photo strip"
+        "photo-strip": "Photo strip",
+        "page-not-found": "Page not found"
     }
 }
