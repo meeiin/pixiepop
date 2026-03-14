@@ -52,7 +52,7 @@ const requestCamera = async () => {
     // Solicita acceso a la cámara
     let localStream = null;
     try {
-        localStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: facingMode.value } });
+        localStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: facingMode.value, width: { ideal: 3840 }, height: { ideal: 2160 } } });
         if(video.value){
             video.value.srcObject = localStream;
             errorCamera.value = false;
@@ -80,29 +80,46 @@ const takePhoto = () => {
 
     errorVideo.value = false; // Asegura que el error de video se oculte si el video está listo
 
-    let width = video.value.videoWidth;
-    let height = video.value.videoHeight;
+    const captureWidth = video.value.videoWidth;
+    const captureHeight = video.value.videoHeight;
+
+    if(captureWidth === 0 || captureHeight === 0){
+        console.error('Invalid dimensions for capturing photo.');
+        return;
+    }
+
+    let slotRatio = captureWidth / captureHeight;
 
     if(hasSlots.value) {
         const slot = frameLayout.slots[currentSlotIndex.value];
         if(slot && slot.width > 0 && slot.height > 0){
-            width = slot.width;
-            height = slot.height;
+            slotRatio = slot.width / slot.height;
         }
     }
 
-    if(width === 0 || height === 0){
-        console.error('Invalid dimensions for capturing photo.');
-        return;
+    let sx, sy, sw, sh;
+
+    if(captureWidth / captureHeight > slotRatio) {
+        sh = captureHeight
+        sw = sh * slotRatio
+        sx = (captureWidth - sw) / 2
+        sy = 0
+    } else {
+        sw = captureWidth
+        sh = sw / slotRatio
+        sx = 0
+        sy = (captureHeight - sh) / 2
     }
+
     const canvas = document.createElement('canvas');
-    canvas.width = width;
-    canvas.height = height;
+    canvas.width = sw;
+    canvas.height = sh;
     const ctx = canvas.getContext('2d');
+
     ctx.save();
-    ctx.translate(width, 0);
+    ctx.translate(sw, 0);
     ctx.scale(-1, 1);
-    ctx.drawImage(video.value, 0, 0, width, height);
+    ctx.drawImage(video.value, sx, sy, sw, sh, 0, 0, sw, sh);
     ctx.restore();
     const dataUrl = canvas.toDataURL('image/png');
     store.addPhoto(dataUrl);
