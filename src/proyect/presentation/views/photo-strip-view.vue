@@ -19,12 +19,32 @@ const loadImage = (src) => {
     return img;
 };
 
-// Dibuja la tira de fotos en el canvas
+const drawImageCover = (ctx, img, dx, dy, dw, dh) => {
+    const imgRatio = img.width / img.height
+    const slotRatio = dw / dh
+
+    let sx, sy, sw, sh
+
+    if (imgRatio > slotRatio) {
+        sh = img.height
+        sw = sh * slotRatio
+        sx = (img.width - sw) / 2
+        sy = 0
+    } else {
+        sw = img.width
+        sh = sw / slotRatio
+        sx = 0
+        sy = (img.height - sh) / 2
+    }
+
+    ctx.drawImage(img, sx, sy, sw, sh, dx, dy, dw, dh)
+}
+
 const drawStrip = async (ctx, images, frame) => {
-    ctx.drawImage(images[0], 75, 100, 800, 600);
-    ctx.drawImage(images[1], 75, 775, 800, 600);
-    ctx.drawImage(images[2], 75, 1450, 800, 600);
-    if(frame) ctx.drawImage(frame, 0, 0, 950, 2350);
+    drawImageCover(ctx, images[0], 75, 100, 800, 600)
+    drawImageCover(ctx, images[1], 75, 775, 800, 600)
+    drawImageCover(ctx, images[2], 75, 1450, 800, 600)
+    if(frame) ctx.drawImage(frame, 0, 0, 950, 2350)
 };
 
 // Genera la tira de fotos y la almacena
