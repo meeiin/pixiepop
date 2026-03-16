@@ -15,6 +15,7 @@ const errorCamera = ref(false); // Solo se muestra si falla la cámara
 const errorVideo = ref(false);  // Solo se muestra si el video no está listo
 const facingMode = ref('user'); // 'user' para cámara frontal, 'environment' para trasera
 const isMobile = ref(false);
+const isHandsFree = ref(false);
 
 const checkMultipleCameras = async () => {
     const devices = await navigator.mediaDevices.enumerateDevices();
@@ -31,7 +32,7 @@ const frameLayout = {
         { x: 75, y: 775, width: 800, height: 600 },
         { x: 75, y: 1450, width: 800, height: 600 }
     ]
-}
+};
 
 // Computed para verificar si hay slots definidos en el frame
 const hasSlots = computed(() => store.selectedFrame?.slotOverlays?.length > 0);
@@ -59,7 +60,6 @@ const requestCamera = async () => {
         }
     } catch (error) {
         errorCamera.value = true;
-        console.error('Error accessing camera:', error);
     }
     stream.value = localStream;
 };
@@ -74,7 +74,6 @@ const takePhoto = () => {
     if(!video.value || video.value.readyState < 2){
         // Error: el video no está listo para capturar la foto
         errorVideo.value = true;
-        console.error('Video not ready for capturing photo.');
         return;
     }
 
@@ -84,7 +83,6 @@ const takePhoto = () => {
     const captureHeight = video.value.videoHeight;
 
     if(captureWidth === 0 || captureHeight === 0){
-        console.error('Invalid dimensions for capturing photo.');
         return;
     }
 
@@ -137,20 +135,55 @@ const takePhoto = () => {
 let countdownInterval = null;
 
 // Inicia una cuenta regresiva antes de tomar la foto
-const startCountdown = () => {
-    if(isCounting.value) return;
-    isCounting.value = true;
-    countdown.value = 3;
+const startCountdown = (auto = false) => {
+    if(isCounting.value) return
+    isCounting.value = true
+    countdown.value = 3
     countdownInterval = setInterval(() => {
-        countdown.value--;
+        countdown.value--
         if(countdown.value === 0) {
-            clearInterval(countdownInterval);
-            countdown.value = null;
-            isCounting.value = false;
-            takePhoto();
+            clearInterval(countdownInterval)
+            countdown.value = null
+            isCounting.value = false
+            takePhoto()
+
+            if(auto && store.photos.length < 3) {
+                startCountdown(true)
+            } else {
+                isHandsFree.value = false
+            }
         }
-    }, 1000);
+    }, 1000)
 };
+
+const startHandsFree = () => {
+    if(isCounting.value || store.photos.length >= 3) return
+    isHandsFree.value = true
+    startCountdown(true)
+};
+
+const selectMode = (mode) => {
+    store.captureMode = mode;
+};
+
+const handleCapture = () => {
+    if(store.captureMode === 'handsfree') {
+        startHandsFree()
+    } else {
+        startCountdown()
+    }
+};
+
+const captureOptions = computed(() => [
+    {
+        label: t('photo-booth.mode-manual'),
+        command: () => selectMode('manual')
+    },
+    {
+        label: t('photo-booth.mode-handsfree'),
+        command: () => selectMode('handsfree')
+    }
+]);
 
 // Permite al usuario cambiar el marco, limpiando las fotos actuales
 const changeFrame = () => {
@@ -175,6 +208,9 @@ onMounted(async () => {
 // Libera la cámara al desmontar el componente
 onBeforeUnmount(() => {
     clearInterval(countdownInterval);
+    if (video.value) {
+        video.value.srcObject = null;
+    }
     stream.value?.getTracks().forEach(track => track.stop());
 });
 </script>
@@ -203,20 +239,32 @@ onBeforeUnmount(() => {
         <div class="photo-counter">
             <p>{{ store.photos.length }} {{ $t('photo-booth.counter') }} 3</p>
         </div>
-        <div class="camera-preview">
-            <video ref="video" autoplay playsinline></video>
-            <img 
+        
+        <div class="camera-wrapper">
+            <div class="camera-preview">
+                <video ref="video" autoplay playsinline></video>
+                <img 
                 v-if="hasSlots" 
                 :src="activeSlot"
                 class="slot-overlay"
                 alt=""/>
-            <div v-if="countdown !== null" class="countdown-overlay">
-                {{ countdown }}
+                <div v-if="countdown !== null" class="countdown-overlay">
+                    {{ countdown }}
+                </div>
             </div>
-            <pv-button v-if="isMobile" class="toggle-camera-button" icon="pi pi-sync" @click="toggleCamera"></pv-button>
+            <div class="camera-controls">
+                <pv-split-button
+                :label="t('photo-booth.button-capture')"
+                :icon="store.captureMode === 'manual' ? 'pi pi-camera' : 'pi pi-bolt'"
+                class="pv-split-button primary"
+                @click="handleCapture"
+                :disabled="isCounting || isHandsFree || store.photos.length >= 3"
+                :model="captureOptions"/>
+                <pv-button v-if="isMobile" class="toggle-camera-button" icon="pi pi-sync" @click="toggleCamera"></pv-button>
+            </div>
         </div>
-        <div class="action-buttons">
-            <pv-button :label="t('photo-booth.button-capture')" class="pv-button primary" @click="startCountdown" :disabled="isCounting || store.photos.length >= 3"></pv-button>
+
+        <div class="change-button">
             <pv-button :label="t('photo-booth.button-change')" class="pv-button tertiary" @click="changeFrame"></pv-button>
         </div>
     </template>
@@ -233,11 +281,20 @@ onBeforeUnmount(() => {
     font-weight: bold;
     color: #64748B;
 }
+.camera-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: clamp(280px, 80vw, 800px);
+    background: #f8f8f8;
+    overflow: hidden;
+    padding-bottom: clamp(60px, 8vw, 110px);
+    gap: clamp(8px, 1.5vw, 14px);
+}
 .camera-preview {
     aspect-ratio: 800/600;
     overflow: hidden;
     position: relative;
-    width: clamp(280px, 80vw, 800px);
+    width: 100%;
 }
 .camera-preview video {
     width: 100%;
@@ -270,9 +327,16 @@ onBeforeUnmount(() => {
     color: white;
     z-index: 10;
 }
+.camera-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 16px 0;
+    position: relative;
+}
 .toggle-camera-button {
-    width: 48px;
-    height: 48px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     background: #F65AE4;
     color: #fff;
@@ -283,9 +347,7 @@ onBeforeUnmount(() => {
     border: none !important;
     transition: background 0.2s;
     position: absolute;
-    bottom: 12px;
-    right: 12px;
-    z-index: 20;
+    right: 16px;
 }
 
 .toggle-camera-button:hover {
