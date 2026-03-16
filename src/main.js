@@ -6,7 +6,8 @@ import PrimeVue from 'primevue/config';
 import 'primeicons/primeicons.css';
 import {
     Button,
-    SelectButton} from 'primevue';
+    SelectButton,
+    SplitButton} from 'primevue';
 import router from "./router.js";
 import pinia from "./pinia.js";
 import './assets/css/buttons.css';
@@ -17,6 +18,7 @@ createApp(App)
     .use(PrimeVue, {theme: { preset: Material}, ripple: false})
     .component('pv-button', Button)
     .component('pv-select-button', SelectButton)
+    .component('pv-split-button', SplitButton)
     .use(router)
     .use(pinia)
     .mount('#app')

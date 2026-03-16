@@ -3,6 +3,12 @@ html, body {
     padding: 0;
     height: 100%;
 }
+:root {
+    color-scheme: light only;
+}
+* {
+    -webkit-text-fill-color: unset;
+}
 
 .view-header {
     text-align: center;
