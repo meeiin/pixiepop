@@ -30,7 +30,9 @@
         "confirm": {
             "title": "Confirmar cambio de marco",
             "description": "Si cambias el marco, perderás las fotos que has tomado. ¿Deseas continuar?"
-        }
+        },
+        "mode-manual": "Manual",
+        "mode-handsfree": "Manos libres"
     },
     "photo-strip": {
         "title": "Tu recuerdo especial",

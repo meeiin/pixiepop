@@ -73,7 +73,6 @@ const generateStrip = async () => {
         stripGenerated.value = true;
     } catch (error) {
         errorMsg.value = true;
-        console.error('Error generating photo strip:', error);
     }
 };
 

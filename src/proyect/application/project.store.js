@@ -9,6 +9,7 @@ export const useProjectStore = defineStore("project", () => {
     const confirmTitle = ref('');
     const confirmDescription = ref('');
     const onConfirmAction = ref(null);
+    const captureMode = ref('manual');
 
     const addPhoto = (photo) => {
         if (photos.value.length < 3){
@@ -44,5 +45,5 @@ export const useProjectStore = defineStore("project", () => {
         closeConfirmCard();
     }
 
-    return { photos, selectedFrame, photoStrip, showConfirmCard, confirmTitle, confirmDescription, addPhoto, clearPhotos, selectFrame, openConfirmCard, closeConfirmCard, confirmAction};
+    return { photos, selectedFrame, photoStrip, showConfirmCard, confirmTitle, confirmDescription, captureMode, addPhoto, clearPhotos, selectFrame, openConfirmCard, closeConfirmCard, confirmAction};
 })

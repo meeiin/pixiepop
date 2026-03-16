@@ -31,7 +31,9 @@
         "confirm": {
             "title": "Confirm frame change",
             "description": "If you change the frame, you will lose the photos you've taken. Do you want to continue?"
-        }
+        },
+        "mode-manual": "Manual",
+        "mode-handsfree": "Hands-free"
     },
     "photo-strip": {
         "title": "Your Special Memory",
