@@ -27,7 +27,7 @@
 /* VARIANTES */
 .pv-button.primary {
   background-color: #F65AE4 !important;
-  color: #fff !important;
+  color: #FFFFFF !important;
 }
 
 .pv-button.primary:hover {
@@ -35,7 +35,7 @@
 }
 
 .pv-button.secondary {
-  background-color: #fff !important;
+  background-color: #FFFFFF !important;
   color: #F65AE4 !important;
   border: 2px solid #F65AE4 !important;
 }
@@ -45,11 +45,69 @@
 }
 
 .pv-button.tertiary {
-  background-color: #fff !important;
+  background-color: #FFFFFF !important;
   color: #334155 !important;
   border: 2px solid #E2E8F0 !important;
 }
 
 .pv-button.tertiary:hover {
   background-color: #f2f2f2 !important;
+}
+
+/* SplitButton botón principal */
+.pv-split-button .p-splitbutton-button {
+    border-radius: clamp(16px, 3vw, 24px) 0 0 clamp(16px, 3vw, 24px) !important;
+    border: none !important;
+    font-family: "Fira Sans Condensed", sans-serif !important;
+    font-size: clamp(14px, 1.8vw, 18px) !important;
+    padding: clamp(12px, 2vw, 20px) clamp(20px, 4vw, 40px) !important;
+    transition: background 0.3s, color 0.3s !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+/* SplitButton dropdown */
+.pv-split-button .p-splitbutton-dropdown {
+    border-radius: 0 clamp(16px, 3vw, 24px) clamp(16px, 3vw, 24px) 0 !important;
+    border: none !important;
+    border-left: 1px solid rgba(255,255,255,0.3) !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+/* Variante primary */
+.pv-split-button.primary .p-splitbutton-button {
+    background: #F65AE4 !important;
+    color: #FFFFFF !important;
+}
+
+.pv-split-button.primary .p-splitbutton-button:hover {
+    background: #e043d0 !important;
+}
+
+.pv-split-button.primary .p-splitbutton-dropdown {
+    background: #F65AE4 !important;
+    color: #FFFFFF !important;
+}
+
+.pv-split-button.primary .p-splitbutton-dropdown:hover {
+    background: #e043d0 !important;
+}
+
+.p-tieredmenu {
+    --p-tieredmenu-item-focus-background: #f8f0ff;
+    --p-tieredmenu-item-active-background: #f8f0ff;
+    --p-tieredmenu-item-focus-color: #F65AE4;
+    --p-tieredmenu-item-active-color: #F65AE4;
+    --p-tieredmenu-item-color: #64748B;
+    --p-tieredmenu-background: #FFFFFF;
+    --p-tieredmenu-border-radius: 12px;
+    font-family: "Fira Sans Condensed", sans-serif;
+    font-size: clamp(14px, 1.8vw, 18px);
+}
+
+.p-tieredmenu .active-mode .p-menuitem-link {
+    background: #f8f0ff !important;
+    color: #F65AE4 !important;
+    font-weight: 600 !important;
 }
