@@ -4,6 +4,8 @@ Una cabina de fotos virtual. Elige tu marco, toma 3 fotos y descarga tu tira.
 
 ## Demo
 
+https://pixiepop.vercel.app/
+
 ## Características
 
 - Selector de marcos
